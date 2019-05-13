@@ -23,8 +23,6 @@ export class TrainingService {
       .collection('availableExercises')
       .snapshotChanges()
       .map(docArray => {
-        // throw(new Error());
-        console.log('test', docArray);
         return docArray.map(doc => {
           return {
             id: doc.payload.doc.id,

@@ -11,6 +11,8 @@ import { StopTrainingComponent } from './current-training/stop-training.componen
 import { MaterialModule } from '../material.module';
 import { SharedModule } from '../shared/shared.module';
 import { TrainingRoutingModule } from './training-routing.module';
+import { BurnedCaloriesComponent } from './burned-calories/burned-calories.component';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 @NgModule({
   declarations: [
@@ -18,11 +20,13 @@ import { TrainingRoutingModule } from './training-routing.module';
     CurrentTrainingComponent,
     NewTrainingComponent,
     PastTrainingsComponent,
-    StopTrainingComponent
+    StopTrainingComponent,
+    BurnedCaloriesComponent
   ],
   imports: [
     SharedModule,
-    TrainingRoutingModule
+    TrainingRoutingModule,
+    ChartsModule
   ],
   entryComponents: [StopTrainingComponent]
 })
