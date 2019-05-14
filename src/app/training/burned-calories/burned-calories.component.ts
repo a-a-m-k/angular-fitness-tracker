@@ -37,6 +37,7 @@ export class BurnedCaloriesComponent implements OnInit, OnDestroy{
     );
     this.trainingService.fetchCompletedOrCancelledExercises(); 
   }
+
   ngOnDestroy() {
     if (this.exChangedSubscription) {
       this.exChangedSubscription.unsubscribe();
@@ -52,8 +53,7 @@ export class BurnedCaloriesComponent implements OnInit, OnDestroy{
         dates.push(elData);
         calories.push(elCalories);
      });
-
-     this.trainigData.chartLabels = this.formatDate(dates, 'MMMM DD YYYY, h:mm:ss');
+     this.trainigData.chartLabels = this.sortDate(this.formatDate(dates, 'MMMM DD YYYY, hh:mm A'));
      this.trainigData.chartData = [
       { data: calories, label: 'Calories' }
     ];
@@ -63,7 +63,14 @@ export class BurnedCaloriesComponent implements OnInit, OnDestroy{
     const formatedDate = _.map(dateArray, (date) => {
         return moment(date).format(format);
     });
-    return formatedDate;
-    
+    return  formatedDate;
+  }
+  
+  private sortDate(dateArray){
+    const sortedArray = dateArray.sort((a, b) => {
+      var dateA:any = moment(a), dateB:any = moment(b);
+      return dateA - dateB;
+  });
+    return sortedArray;
   }
 }
