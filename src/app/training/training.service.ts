@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 
 import { Exercise } from './exercise.model';
 import { UIService } from '../shared/ui.service';
+import { firestore } from 'firebase/app';
 
 @Injectable()
 export class TrainingService {
@@ -84,6 +85,22 @@ export class TrainingService {
       .subscribe((exercises: Exercise[]) => {
         this.finishedExercisesChanged.next(exercises);
       }));
+  }
+
+  fetchExercises() {
+    this.fbSubs.push(this.db
+      .collection('finishedExercises')
+      .valueChanges()
+      .subscribe((exercises: Exercise[]) => {
+        this.finishedExercisesChanged.next(exercises);
+      }));
+  }
+
+  getExercisesPerDay(date: string) {
+    const todayDate = new Date(date) // Any date in string
+    const spendsRef = this.db.collection('finishedExercises', ref => ref.where("date", "==", todayDate));
+    const arr = spendsRef.valueChanges();
+    return arr;
   }
 
   cancelSubscriptions() {

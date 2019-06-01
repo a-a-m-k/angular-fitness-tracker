@@ -5,10 +5,10 @@ export interface TrainingData {
      responsive: true
     };
     chartData:[{
-        data: Number[],
+        data: string[] | Number[],
         label:string
     
     }];
-    chartLabels: Date[] | String[];
+    chartLabels: Date[] | any[];
 
 }
