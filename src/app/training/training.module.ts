@@ -14,7 +14,7 @@ import { MaterialModule } from '../material.module';
 import { SharedModule } from '../shared/shared.module';
 import { TrainingRoutingModule } from './training-routing.module';
 import { BurnedCaloriesComponent } from './burned-calories/burned-calories.component';
-import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { ChartsModule } from 'ng2-charts';
 import { from } from 'rxjs/observable/from';
 
 @NgModule({

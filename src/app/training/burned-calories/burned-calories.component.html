@@ -1,6 +1,6 @@
 <div style="width:80%">
   <canvas
-  
+    *ngIf="trainigData.chartData" 
       baseChart
       class="chart"
       [chartType]="'line'"
@@ -9,4 +9,8 @@
       [options]="trainigData.chartOptions"
       [legend]="false">
 </canvas>
+<div
+*ngIf="!trainigData.chartLabels" >
+  No calories burned(((
+</div>
   </div>

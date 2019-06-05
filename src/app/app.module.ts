@@ -20,6 +20,8 @@ import { UIService } from './shared/ui.service';
 import { AuthModule } from './auth/auth.module';
 import { appReducer } from './app.reducer';
 
+import { ChartsModule } from 'ng2-charts';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +39,8 @@ import { appReducer } from './app.reducer';
     AuthModule,
     AngularFirestoreModule,
     NgbModule.forRoot(),
-    StoreModule.forRoot({ui: appReducer})
+    StoreModule.forRoot({ui: appReducer}),
+    ChartsModule
   ],
   providers: [AuthService, TrainingService, UIService],
   bootstrap: [AppComponent]

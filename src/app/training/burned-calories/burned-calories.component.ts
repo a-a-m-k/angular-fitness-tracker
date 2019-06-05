@@ -1,9 +1,10 @@
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import {Chart} from 'chart.js';
-import { Component, Input, OnInit, OnChanges, SimpleChanges, SimpleChange, OnDestroy, ElementRef  } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, SimpleChange, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { MatTableDataSource} from '@angular/material';
+
+import { BaseChartDirective } from 'ng2-charts';
 
 import { Exercise } from '../exercise.model';
 import {TrainingData} from '../training-data.model';
@@ -16,35 +17,50 @@ import { from } from 'rxjs/observable/from';
   templateUrl: './burned-calories.component.html',
   styleUrls: ['./burned-calories.component.css']
 })
-export class BurnedCaloriesComponent implements OnInit, OnDestroy, OnChanges{
+export class BurnedCaloriesComponent implements OnInit, OnDestroy, OnChanges {
   @Input() selectedDate;
-
-  private trainigData = <TrainingData>{
-    chartData:[{
+  private labelCollection = [];
+  // public showChart: boolean = false;
+  public trainigData = <TrainingData>{
+    chartData: [{
       data: [],
-      label:''
-    }]
+      label: ''
+    }],
+    chartLabels: this.labelCollection
   };
   private exChangedSubscription: Subscription;
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
+
   constructor(private trainingService: TrainingService, private elementRef: ElementRef ) { }
 
   ngOnInit() {
     this.trainigData.data = Array<Exercise>();
     this.exChangedSubscription = this.trainingService.finishedExercisesChanged.subscribe(
       (exercises: Exercise[]) => {
-        this.trainigData.data =  exercises;  
-        const filteredArray = this.filterDate(exercises, this.selectedDate);
-        this.getChartData(filteredArray);   
+        this.trainigData.data =  exercises;
+        const filteredArray = this.filterDate( this.trainigData.data, this.selectedDate);
+    this.trainigData.chartData = [
+      {data: filteredArray.map(el => el.calories), label: 'Calories'}
+    ];
+    filteredArray.map(el => {
+     this.labelCollection.push(this.formatDate(el.date, 'hh:mm A'));
+    });
       }
     );
-    this.trainingService.fetchCompletedOrCancelledExercises(); 
+    this.trainingService.fetchCompletedOrCancelledExercises();
   }
-  
+
   ngOnChanges(changes: SimpleChanges) {
+    _.remove(this.labelCollection);
     const name: SimpleChange = changes.selectedDate;
     this.selectedDate = name.currentValue || new Date();
-    const filteredArray = this.filterDate( this.trainigData.data, this.selectedDate);      
-    this.getChartData(filteredArray);  
+    const filteredArray = this.filterDate( this.trainigData.data, this.selectedDate);
+    this.trainigData.chartData = [
+      {data: filteredArray.map(el => el.calories), label: 'Calories'}
+    ];
+    filteredArray.map(el => {
+     this.labelCollection.push(this.formatDate(el.date, 'hh:mm A'));
+    });
   }
 
   ngOnDestroy() {
@@ -52,46 +68,39 @@ export class BurnedCaloriesComponent implements OnInit, OnDestroy, OnChanges{
       this.exChangedSubscription.unsubscribe();
     }
   }
-  
-  private getChartData(trainigData){
+
+  private getChartData(trainigData) {
     const dates = [];
     const calories = [];
-    const sortedTrainingData = this.sortDate(trainigData)
-     _.forEach(sortedTrainingData,(elem)=>{
+    const sortedTrainingData = this.sortDate(trainigData);
+     _.forEach(sortedTrainingData, (elem) => {
        const elData = _.get(elem, 'date');
        const elCalories = _.get(elem, 'calories');
-        dates.push(elData);
-        calories.push(elCalories);
+       trainigData.chartData.push(elData);
+       trainigData.chartLabels.push(elCalories);
      });
-    const formatedDate = this.formatDate(dates, 'hh:mm A');
-    this.trainigData.chartLabels = formatedDate;
-    this.trainigData.chartData = [
-      { data: calories, label: 'Calories' }
-    ];
-
   }
 
-  private formatDate(dateArray, format){
-    const formatedDate = _.map(dateArray, (date) => {
-        return moment(date).format(format);
-    });
-    return formatedDate;
+  private formatDate(date, format) {
+    const dateEl = date;
+    return moment(dateEl).format(format);
   }
-  
-  private sortDate(dateArray){
+
+  private sortDate(dateArray) {
     const sortedArray = dateArray.sort((a, b) => {
-      var dateA: any = moment(a.date), dateB:any = moment(b.date);
+      const dateA: any = moment(a.date);
+      const dateB: any = moment(b.date);
       return dateA - dateB;
   });
     return sortedArray;
   }
 
-  private filterDate(dateArray, date){
-     let filteredArray = [];
+  private filterDate(dateArray, date) {
+     const filteredArray = [];
      const selectedDate = moment(date).format('MMMM DD YYYY');
      _.forEach(dateArray, (dateEl) => {
        const formatedDateEl =  moment(dateEl.date).format('MMMM DD YYYY');
-       if(selectedDate === formatedDateEl){
+       if (selectedDate === formatedDateEl) {
          filteredArray.push(dateEl);
         }
      });
