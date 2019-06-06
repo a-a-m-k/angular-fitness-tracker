@@ -1,6 +1,6 @@
-<div style="width:80%">
+<div style="width:70%">
   <canvas
-    *ngIf="trainigData.chartData" 
+    *ngIf="trainigData.chartLabels.length >= 2" 
       baseChart
       class="chart"
       [chartType]="'line'"
@@ -9,8 +9,16 @@
       [options]="trainigData.chartOptions"
       [legend]="false">
 </canvas>
-<div
-*ngIf="!trainigData.chartLabels" >
-  No calories burned(((
 </div>
-  </div>
+<div
+   class = "no-calories"
+   *ngIf="trainigData.chartLabels.length === 1">
+   <b>You burned only {{trainigData.chartData[0].data}} cal. Keep on moving</b>
+</div>
+<div
+   class = "no-calories"
+   *ngIf="trainigData.chartLabels.length === 0">
+   <b>No calories burned(((</b>
+</div>
+
+  

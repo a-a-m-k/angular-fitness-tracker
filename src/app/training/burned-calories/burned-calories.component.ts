@@ -20,7 +20,6 @@ import { from } from 'rxjs/observable/from';
 export class BurnedCaloriesComponent implements OnInit, OnDestroy, OnChanges {
   @Input() selectedDate;
   private labelCollection = [];
-  // public showChart: boolean = false;
   public trainigData = <TrainingData>{
     chartData: [{
       data: [],
@@ -39,12 +38,13 @@ export class BurnedCaloriesComponent implements OnInit, OnDestroy, OnChanges {
       (exercises: Exercise[]) => {
         this.trainigData.data =  exercises;
         const filteredArray = this.filterDate( this.trainigData.data, this.selectedDate);
-    this.trainigData.chartData = [
-      {data: filteredArray.map(el => el.calories), label: 'Calories'}
-    ];
-    filteredArray.map(el => {
-     this.labelCollection.push(this.formatDate(el.date, 'hh:mm A'));
-    });
+        _.remove(this.labelCollection);
+        this.trainigData.chartData = [
+        {data: filteredArray.map(el => el.calories), label: 'Calories'}
+        ];
+        filteredArray.map(el => {
+          this.labelCollection.push(this.formatDate(el.date, 'hh:mm A'));
+        });
       }
     );
     this.trainingService.fetchCompletedOrCancelledExercises();
