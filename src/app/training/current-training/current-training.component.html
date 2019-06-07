@@ -1,4 +1,54 @@
-<section class="current-training" fxLayout="column" fxLayoutAlign="center center">
+<section class="current-training" fxLayout="column" fxLayoutAlign="center center" [ngSwitch]="currentExercise">
+    <img
+    class="exercise"
+    *ngSwitchCase="'Burpees'" 
+     src= '../../../assets/images/workout/Burpies.gif'
+    />
+    <img
+    class="exercise"
+    *ngSwitchCase="'Side Lunges'" 
+     src= '../../../assets/images/workout/Side Launges.gif'
+    />
+    <img
+    class="exercise"
+    *ngSwitchCase="'Touch Toes'" 
+     src= '../../../assets/images/workout/Touch-Toes.gif'
+    />
+    <img
+    class="exercise"
+    *ngSwitchCase="'Crunches'" 
+     src= '../../../assets/images/workout/Crunches.gif'
+    />
+    <img
+    class="exercise"
+    *ngSwitchCase="'Kettlebell swing'" 
+     src= '../../../assets/images/workout/Cettlebell.gif'
+    />
+    <img
+    class="exercise"
+    *ngSwitchCase="'Side Bridge'" 
+     src= '../../../assets/images/workout/Side bridge.gif'
+    />
+    <img
+    class="exercise"
+    *ngSwitchCase="'Front Raises'" 
+     src= '../../../assets/images/workout/Front Raises.gif'
+    />
+    <img
+    class="exercise"
+    *ngSwitchCase="'Superman'" 
+     src= '../../../assets/images/workout/Superman.gif'
+    />
+    <img
+    class="exercise"
+    *ngSwitchCase="'Moutain Climbers'" 
+     src= '../../../assets/images/workout/Moutain-Climbers.gif'
+    />
+    <img
+    class="exercise"
+    *ngSwitchCase="'Lover Abs'" 
+     src= '../../../assets/images/workout/Lover-abs.gif'
+    />
     <mat-progress-spinner mode="determinate" [value]="progress"></mat-progress-spinner>
     <h1>{{ progress }}%</h1>
     <p>Keep on going, you can do it!</p>

@@ -20,6 +20,7 @@ import { from } from 'rxjs/observable/from';
 export class BurnedCaloriesComponent implements OnInit, OnDestroy, OnChanges {
   @Input() selectedDate;
   private labelCollection = [];
+  public sum: number;
   public trainigData = <TrainingData>{
     chartData: [{
       data: [],
@@ -36,7 +37,7 @@ export class BurnedCaloriesComponent implements OnInit, OnDestroy, OnChanges {
     this.trainigData.data = Array<Exercise>();
     this.exChangedSubscription = this.trainingService.finishedExercisesChanged.subscribe(
       (exercises: Exercise[]) => {
-        this.trainigData.data =  exercises;
+        this.trainigData.data = exercises;
         const filteredArray = this.filterDate( this.trainigData.data, this.selectedDate);
         _.remove(this.labelCollection);
         this.trainigData.chartData = [
@@ -45,6 +46,7 @@ export class BurnedCaloriesComponent implements OnInit, OnDestroy, OnChanges {
         filteredArray.map(el => {
           this.labelCollection.push(this.formatDate(el.date, 'hh:mm A'));
         });
+        this.getCaloriesSum(filteredArray);
       }
     );
     this.trainingService.fetchCompletedOrCancelledExercises();
@@ -61,6 +63,7 @@ export class BurnedCaloriesComponent implements OnInit, OnDestroy, OnChanges {
     filteredArray.map(el => {
      this.labelCollection.push(this.formatDate(el.date, 'hh:mm A'));
     });
+    this.getCaloriesSum(filteredArray);
   }
 
   ngOnDestroy() {
@@ -69,16 +72,13 @@ export class BurnedCaloriesComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private getChartData(trainigData) {
-    const dates = [];
+  private getCaloriesSum(trainigData) {
     const calories = [];
-    const sortedTrainingData = this.sortDate(trainigData);
-     _.forEach(sortedTrainingData, (elem) => {
-       const elData = _.get(elem, 'date');
+     _.forEach(trainigData, (elem) => {
        const elCalories = _.get(elem, 'calories');
-       trainigData.chartData.push(elData);
-       trainigData.chartLabels.push(elCalories);
+       calories.push(elCalories);
      });
+     this.sum =  Math.round(_.sum(calories));
   }
 
   private formatDate(date, format) {

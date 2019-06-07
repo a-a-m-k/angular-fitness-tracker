@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Subscription } from 'rxjs';
-
+import * as moment from 'moment';
 import { Exercise } from '../exercise.model';
 import { TrainingService } from '../training.service';
 
@@ -23,7 +23,7 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit, OnDestroy 
   ngOnInit() {
     this.exChangedSubscription = this.trainingService.finishedExercisesChanged.subscribe(
       (exercises: Exercise[]) => {
-        this.dataSource.data = exercises;
+        this.dataSource.data = this.sortDate(exercises);
       }
     );
     this.trainingService.fetchCompletedOrCancelledExercises();
@@ -42,5 +42,13 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit, OnDestroy 
     if (this.exChangedSubscription) {
       this.exChangedSubscription.unsubscribe();
     }
+  }
+  private sortDate(dateArray) {
+    const sortedArray = dateArray.sort((a, b) => {
+      const dateA: any = moment(a.date);
+      const dateB: any = moment(b.date);
+      return dateA - dateB;
+  });
+    return sortedArray;
   }
 }

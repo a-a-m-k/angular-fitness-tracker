@@ -1,5 +1,8 @@
-<div style="width:70%">
-  <canvas
+<div  class="container">
+<div class ="row">
+<div class = "col-md-10 parent">
+<canvas
+style="display: block"
     *ngIf="trainigData.chartLabels.length >= 2" 
       baseChart
       class="chart"
@@ -11,14 +14,41 @@
 </canvas>
 </div>
 <div
-   class = "no-calories"
-   *ngIf="trainigData.chartLabels.length === 1">
-   <b>You burned only {{trainigData.chartData[0].data}} cal. Keep on moving</b>
+*ngIf="trainigData.chartLabels.length >= 2" 
+ class="overall-calories  center-block col-md-2 parent" >
+ <p class="center-block text-center">
+ Burned per day:
+ <br>
+ <span class="sum"> {{sum}} cal </span> 
+ <br>
+ <span
+  *ngIf="sum >= 50  && sum < 100"
+ >Good job!</span>
+ <span
+  *ngIf="sum >= 100"
+ > Awsome!</span>
+ <span
+  *ngIf="sum < 50"
+ >You can do better</span>
+ </p>
+</div>
 </div>
 <div
-   class = "no-calories"
+   class = "no-calories col-md-10 parent"
+   *ngIf="trainigData.chartLabels.length === 1">
+   <b>You burned only {{sum}} cal. You can do better</b>
+         <img
+         src="../../../assets/images/workout/do-better.gif"
+        />
+
+</div>
+<div
+   class = "no-calories center-block overall-calories text-center col-md-12 parent"
    *ngIf="trainigData.chartLabels.length === 0">
-   <b>No calories burned(((</b>
+   <b>No calories</b>
+   <img
+    src="../../../assets/images/workout/sad-bear.gif"
+   />
 </div>
 
   

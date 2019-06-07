@@ -10,6 +10,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { WelcomeComponent } from './welcome/welcome.component';
+import {MealComponent} from './meal/meal.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
@@ -26,6 +27,7 @@ import { ChartsModule } from 'ng2-charts';
   declarations: [
     AppComponent,
     WelcomeComponent,
+    MealComponent,
     HeaderComponent,
     SidenavListComponent
   ],

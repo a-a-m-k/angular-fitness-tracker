@@ -11,10 +11,11 @@ import { TrainingService } from '../training.service';
 })
 export class CurrentTrainingComponent implements OnInit {
   progress = 0;
-  timer: number;
+  timer: any;
+
 
   constructor(private dialog: MatDialog, private trainingService: TrainingService) {}
-
+  public currentExercise = this.trainingService.getRunningExercise().name;
   ngOnInit() {
     this.startOrResumeTimer();
   }

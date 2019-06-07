@@ -1,0 +1,6 @@
+.mat-row:nth-child(odd) {
+    background: #b7bef2;
+}
+.state{
+    height: 20px;
+}
