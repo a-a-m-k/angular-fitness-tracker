@@ -16,6 +16,7 @@ import { TrainingRoutingModule } from './training-routing.module';
 import { BurnedCaloriesComponent } from './burned-calories/burned-calories.component';
 import { ChartsModule } from 'ng2-charts';
 import { from } from 'rxjs/observable/from';
+import { ExecisesStatisticComponent } from './execises-statistic/execises-statistic.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { from } from 'rxjs/observable/from';
     PastTrainingsComponent,
     StopTrainingComponent,
     BurnedCaloriesComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    ExecisesStatisticComponent
   ],
   imports: [
     SharedModule,

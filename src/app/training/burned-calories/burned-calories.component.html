@@ -3,7 +3,7 @@
 <div class = "col-md-10 parent">
 <canvas
 style="display: block"
-    *ngIf="trainigData.chartLabels.length >= 2" 
+    *ngIf="trainigData.chartLabels.length >= 2 && sum > 0" 
       baseChart
       class="chart"
       [chartType]="'line'"
@@ -21,21 +21,12 @@ style="display: block"
  <br>
  <span class="sum"> {{sum}} cal </span> 
  <br>
- <span
-  *ngIf="sum >= 50  && sum < 100"
- >Good job!</span>
- <span
-  *ngIf="sum >= 100"
- > Awsome!</span>
- <span
-  *ngIf="sum < 50"
- >You can do better</span>
  </p>
 </div>
 </div>
 <div
    class = "no-calories col-md-10 parent"
-   *ngIf="trainigData.chartLabels.length === 1">
+   *ngIf="trainigData.chartLabels.length === 1 && sum > 0">
    <b>You burned only {{sum}} cal. You can do better</b>
          <img
          src="../../../assets/images/workout/do-better.gif"
@@ -44,8 +35,8 @@ style="display: block"
 </div>
 <div
    class = "no-calories center-block overall-calories text-center col-md-12 parent"
-   *ngIf="trainigData.chartLabels.length === 0">
-   <b>No calories</b>
+   *ngIf="sum === 0">
+   <b>no activities</b>
    <img
     src="../../../assets/images/workout/sad-bear.gif"
    />
