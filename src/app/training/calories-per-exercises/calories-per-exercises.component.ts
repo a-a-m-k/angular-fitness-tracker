@@ -10,14 +10,14 @@ import {TrainingData} from '../training-data.model';
 import { TrainingService } from '../training.service';
 
 import { from } from 'rxjs/observable/from';
-
+import { e } from '@angular/core/src/render3';
 
 @Component({
-  selector: 'app-execises-statistic',
-  templateUrl: './execises-statistic.component.html',
-  styleUrls: ['./execises-statistic.component.css']
+  selector: 'app-calories-per-exercises',
+  templateUrl: './calories-per-exercises.component.html',
+  styleUrls: ['./calories-per-exercises.component.css']
 })
-export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges {
+export class CaloriesPerExercisesComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedDate;
   public labelCollection = [];
   public sum: number;
@@ -44,7 +44,7 @@ export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges 
       (exercises: Exercise[]) => {
         this.trainigData.data = exercises;
         const filteredArray = this.filterDate( this.trainigData.data, this.selectedDate);
-        const data = this.divideIntoExercises(filteredArray);
+        const data = this.countCalories(filteredArray);
         this.trainigData.chartData = [
         {data: data, label: 'Calories'}
         ];
@@ -68,7 +68,7 @@ export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges 
         this.labelCollection.push((el.name));
       }
     });
-    const data = this.divideIntoExercises(filteredArray);
+    const data = this.countCalories(filteredArray);
     this.trainigData.chartData = [
     {data: data, label: 'Calories'}
     ];
@@ -81,11 +81,11 @@ export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges 
     }
   }
 
-  private divideIntoExercises(data) {
+  private countCalories(data) {
    const countEx = [];
    const exNamesArray = [];
     _.forEach(data, (el) => {
-      exNamesArray.push(el.name);
+      exNamesArray.push(el);
    });
    const exNames = this.labelCollection;
   _.forEach(exNames, (name) => {
@@ -95,7 +95,13 @@ export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   private sortEx(array, name) {
-    return _.countBy(array)[name];
+    let sum = 0;
+    _.forEach(array, (el) => {
+      if (el.name === name) {
+        sum += el.calories;
+      }
+    });
+    return sum;
   }
   private filterDate(dateArray, date) {
     const filteredArray = [];

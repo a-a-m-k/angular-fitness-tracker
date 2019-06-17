@@ -11,13 +11,12 @@ import { TrainingService } from '../training.service';
 
 import { from } from 'rxjs/observable/from';
 
-
 @Component({
-  selector: 'app-execises-statistic',
-  templateUrl: './execises-statistic.component.html',
-  styleUrls: ['./execises-statistic.component.css']
+  selector: 'app-exercises-duration',
+  templateUrl: './exercises-duration.component.html',
+  styleUrls: ['./exercises-duration.component.css']
 })
-export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges {
+export class ExercisesDurationComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedDate;
   public labelCollection = [];
   public sum: number;
@@ -44,9 +43,9 @@ export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges 
       (exercises: Exercise[]) => {
         this.trainigData.data = exercises;
         const filteredArray = this.filterDate( this.trainigData.data, this.selectedDate);
-        const data = this.divideIntoExercises(filteredArray);
+        const data = this.countDuration(filteredArray);
         this.trainigData.chartData = [
-        {data: data, label: 'Calories'}
+        {data: data, label: 'Duration'}
         ];
         filteredArray.map(el => {
           if (this.labelCollection.indexOf(el.name) === -1) {
@@ -68,9 +67,9 @@ export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges 
         this.labelCollection.push((el.name));
       }
     });
-    const data = this.divideIntoExercises(filteredArray);
+    const data = this.countDuration(filteredArray);
     this.trainigData.chartData = [
-    {data: data, label: 'Calories'}
+    {data: data, label: 'Duration'}
     ];
   }
 
@@ -81,11 +80,11 @@ export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges 
     }
   }
 
-  private divideIntoExercises(data) {
+  private countDuration(data) {
    const countEx = [];
    const exNamesArray = [];
     _.forEach(data, (el) => {
-      exNamesArray.push(el.name);
+      exNamesArray.push(el);
    });
    const exNames = this.labelCollection;
   _.forEach(exNames, (name) => {
@@ -95,7 +94,13 @@ export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   private sortEx(array, name) {
-    return _.countBy(array)[name];
+    let sum = 0;
+    _.forEach(array, (el) => {
+      if (el.name === name) {
+        sum += el.duration;
+      }
+    });
+    return sum;
   }
   private filterDate(dateArray, date) {
     const filteredArray = [];
@@ -108,5 +113,6 @@ export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges 
     });
     return filteredArray;
  }
+
 
 }

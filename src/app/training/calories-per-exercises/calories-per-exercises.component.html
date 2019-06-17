@@ -1,0 +1,13 @@
+<div>
+<canvas
+  *ngIf="trainigData.chartLabels.length >= 2" 
+    baseChart
+    class="chart"
+    [chartType]="'horizontalBar'"
+    [datasets]="trainigData.chartData"
+    [labels]="trainigData.chartLabels"
+    [options]="trainigData.chartOptions"
+    [colors]="pieChartColors"
+    [legend]="true">
+</canvas>
+</div>

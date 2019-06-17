@@ -17,6 +17,9 @@ import { BurnedCaloriesComponent } from './burned-calories/burned-calories.compo
 import { ChartsModule } from 'ng2-charts';
 import { from } from 'rxjs/observable/from';
 import { ExecisesStatisticComponent } from './execises-statistic/execises-statistic.component';
+import { CaloriesPerExercisesComponent } from './calories-per-exercises/calories-per-exercises.component';
+import { ExercisesDurationComponent } from './exercises-duration/exercises-duration.component';
+import { ExerciseStateComponent } from './exercise-state/exercise-state.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { ExecisesStatisticComponent } from './execises-statistic/execises-statis
     StopTrainingComponent,
     BurnedCaloriesComponent,
     DatePickerComponent,
-    ExecisesStatisticComponent
+    ExecisesStatisticComponent,
+    CaloriesPerExercisesComponent,
+    ExercisesDurationComponent,
+    ExerciseStateComponent
   ],
   imports: [
     SharedModule,

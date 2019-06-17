@@ -6,10 +6,10 @@
     <app-past-trainings></app-past-trainings>
   </mat-tab>
   <mat-tab label="Burned Calories">
-    <app-date-picker></app-date-picker>
+    <app-date-picker [isStatisticShown]="false" [isBurnedCaloriesShown]="true"></app-date-picker>
   </mat-tab>
     <mat-tab label="Exercises Statistic">
-    <app-execises-statistic></app-execises-statistic>
+    <app-date-picker [isStatisticShown]="true" [isBurnedCaloriesShown]="false"></app-date-picker>
   </mat-tab>
 </mat-tab-group>
 <app-current-training *ngIf="ongoingTraining"></app-current-training>

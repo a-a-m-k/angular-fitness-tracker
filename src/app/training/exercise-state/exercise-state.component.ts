@@ -11,15 +11,15 @@ import { TrainingService } from '../training.service';
 
 import { from } from 'rxjs/observable/from';
 
-
 @Component({
-  selector: 'app-execises-statistic',
-  templateUrl: './execises-statistic.component.html',
-  styleUrls: ['./execises-statistic.component.css']
+  selector: 'app-exercise-state',
+  templateUrl: './exercise-state.component.html',
+  styleUrls: ['./exercise-state.component.css']
 })
-export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges {
+export class ExerciseStateComponent implements OnInit, OnChanges, OnDestroy {
+
   @Input() selectedDate;
-  public labelCollection = [];
+  public labelCollection =  ['completed', 'cancelled'];
   public sum: number;
   public trainigData = <TrainingData>{
     chartData: [{
@@ -28,9 +28,9 @@ export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges 
     }],
     chartLabels: this.labelCollection
   };
-  public pieChartColors = [
+  public doughnutChartColors = [
     {
-      backgroundColor: ['#FF00FF', '#FF1493', '#C71585', '#DB7093', '#F08080', '#800080', '#4B0082', '#7B68EE', '#BA55D3', '#DDA0DD'],
+      backgroundColor: ['#90EE90', '#CD5C5C'],
     },
   ];
   private exChangedSubscription: Subscription;
@@ -44,33 +44,22 @@ export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges 
       (exercises: Exercise[]) => {
         this.trainigData.data = exercises;
         const filteredArray = this.filterDate( this.trainigData.data, this.selectedDate);
-        const data = this.divideIntoExercises(filteredArray);
+        const data = this.checkState(filteredArray);
         this.trainigData.chartData = [
-        {data: data, label: 'Calories'}
+        {data: data, label: 'State'}
         ];
-        filteredArray.map(el => {
-          if (this.labelCollection.indexOf(el.name) === -1) {
-            this.labelCollection.push((el.name));
-          }
-        });
       }
     );
     this.trainingService.fetchCompletedOrCancelledExercises();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    _.remove(this.labelCollection);
     const name: SimpleChange = changes.selectedDate;
     this.selectedDate = name.currentValue || new Date();
     const filteredArray = this.filterDate( this.trainigData.data, this.selectedDate);
-    filteredArray.map(el => {
-      if (this.labelCollection.indexOf(el.name) === -1) {
-        this.labelCollection.push((el.name));
-      }
-    });
-    const data = this.divideIntoExercises(filteredArray);
+    const data = this.checkState(filteredArray);
     this.trainigData.chartData = [
-    {data: data, label: 'Calories'}
+    {data: data, label: 'State'}
     ];
   }
 
@@ -81,15 +70,12 @@ export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges 
     }
   }
 
-  private divideIntoExercises(data) {
+  private checkState(data) {
    const countEx = [];
-   const exNamesArray = [];
-    _.forEach(data, (el) => {
-      exNamesArray.push(el.name);
-   });
    const exNames = this.labelCollection;
+   const stateArray = _.map(data, (el: any) => el.state);
   _.forEach(exNames, (name) => {
-    countEx.push(this.sortEx(exNamesArray, name));
+    countEx.push(this.sortEx(stateArray, name));
   });
    return countEx;
   }

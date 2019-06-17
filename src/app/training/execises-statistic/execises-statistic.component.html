@@ -1,18 +1,13 @@
-<div  class="container">
-    <div class ="row">
-      <div class = "col-md-12 parent">
-    <canvas
-        *ngIf="trainigData.chartLabels.length >= 2" 
-          baseChart
-          class="chart"
-          [chartType]="'pie'"
-          [datasets]="trainigData.chartData"
-          [labels]="trainigData.chartLabels"
-          [options]="trainigData.chartOptions"
-          [colors]="pieChartColors"
-          [legend]="true">
-    </canvas>
-    </div>
-    </div>
-    </div>
+<div>
+<canvas
+  baseChart
+  class="chart"
+  [chartType]="'pie'"
+  [datasets]="trainigData.chartData"
+  [labels]="trainigData.chartLabels"
+  [options]="trainigData.chartOptions"
+  [colors]="pieChartColors"
+  [legend]="true">
+</canvas>
+</div>
     

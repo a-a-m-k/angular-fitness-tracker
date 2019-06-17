@@ -3,4 +3,21 @@
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker (selectedChanged)="onDate($event)"></mat-datepicker>
 </mat-form-field>
-<app-burned-calories [selectedDate]="selectedDate"></app-burned-calories>
+<app-burned-calories *ngIf="isBurnedCaloriesShown" [selectedDate]="selectedDate"></app-burned-calories>
+<div *ngIf="isStatisticShown" class="container">
+    <div class ="row">
+      <div class = "col-md-6 parent">
+
+<app-execises-statistic  [selectedDate]="selectedDate"></app-execises-statistic>
+</div>
+<div class = "col-md-6 parent">
+<app-calories-per-exercises  [selectedDate]="selectedDate"></app-calories-per-exercises>
+</div>
+<div class = "col-md-6 parent">
+    <app-exercises-duration [selectedDate]="selectedDate"></app-exercises-duration>
+</div>
+<div class = "col-md-6 parent">
+    <app-exercise-state  [selectedDate]="selectedDate"></app-exercise-state>
+</div>
+</div>
+</div>
