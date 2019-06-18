@@ -86,15 +86,6 @@ export class BurnedCaloriesComponent implements OnInit, OnDestroy, OnChanges {
     return moment(dateEl).format(format);
   }
 
-  private sortDate(dateArray) {
-    const sortedArray = dateArray.sort((a, b) => {
-      const dateA: any = moment(a.date);
-      const dateB: any = moment(b.date);
-      return dateA - dateB;
-  });
-    return sortedArray;
-  }
-
   private filterDate(dateArray, date) {
      const filteredArray = [];
      const selectedDate = moment(date).format('MMMM DD YYYY');

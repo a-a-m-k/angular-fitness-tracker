@@ -1,13 +1,24 @@
-<div>
+<div
+*ngIf="completed > 0 || cancelled > 0"> 
     <canvas
         baseChart
+        *ngIf="trainigData.chartData[0].data.length >= 1"
         class="chart"
         [chartType]="'doughnut'"
         [datasets]="trainigData.chartData"
         [labels]="trainigData.chartLabels"
-        [options]="trainigData.chartOptions"
+        [options]="doughnutChartOptions"
         [colors]="doughnutChartColors"
         [legend]="true">
     </canvas>
+    <div
+    class="donut-inner">
+            <h5> completed : {{completed}}% </h5>
+            <h5>cancelled : {{cancelled}}%</h5>
+        </div>
+
     </div>
+    
+   
+
     

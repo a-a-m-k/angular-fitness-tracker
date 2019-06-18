@@ -9,8 +9,6 @@ import { Exercise } from '../exercise.model';
 import {TrainingData} from '../training-data.model';
 import { TrainingService } from '../training.service';
 
-import { from } from 'rxjs/observable/from';
-
 @Component({
   selector: 'app-exercise-state',
   templateUrl: './exercise-state.component.html',
@@ -20,6 +18,8 @@ export class ExerciseStateComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() selectedDate;
   public labelCollection =  ['completed', 'cancelled'];
+  public completed: any;
+  public cancelled: any;
   public sum: number;
   public trainigData = <TrainingData>{
     chartData: [{
@@ -30,9 +30,16 @@ export class ExerciseStateComponent implements OnInit, OnChanges, OnDestroy {
   };
   public doughnutChartColors = [
     {
-      backgroundColor: ['#90EE90', '#CD5C5C'],
+      backgroundColor: ['#90EE90', '#ff531a'],
     },
   ];
+  public doughnutChartOptions = {
+    title: {
+      display: true,
+      fontSize: 20,
+      text: 'State of exercises'
+    }
+  };
   private exChangedSubscription: Subscription;
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
@@ -75,8 +82,10 @@ export class ExerciseStateComponent implements OnInit, OnChanges, OnDestroy {
    const exNames = this.labelCollection;
    const stateArray = _.map(data, (el: any) => el.state);
   _.forEach(exNames, (name) => {
-    countEx.push(this.sortEx(stateArray, name));
+    countEx.push(Math.round(this.sortEx(stateArray, name) * 100 / stateArray.length));
   });
+   this.completed = isNaN(countEx[0]) ? 0 :  countEx[0];
+   this.cancelled = isNaN(countEx[1]) ? 0 :  countEx[1];
    return countEx;
   }
 

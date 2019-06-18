@@ -20,6 +20,8 @@ export class ExercisesDurationComponent implements OnInit, OnChanges, OnDestroy 
   @Input() selectedDate;
   public labelCollection = [];
   public sum: number;
+  public duration;
+  public exercise;
   public trainigData = <TrainingData>{
     chartData: [{
       data: [],
@@ -27,11 +29,18 @@ export class ExercisesDurationComponent implements OnInit, OnChanges, OnDestroy 
     }],
     chartLabels: this.labelCollection
   };
-  public pieChartColors = [
+  public barChartColors = [
     {
-      backgroundColor: ['#FF00FF', '#FF1493', '#C71585', '#DB7093', '#F08080', '#800080', '#4B0082', '#7B68EE', '#BA55D3', '#DDA0DD'],
+      backgroundColor: ['#4B0082', '#1affff', '#6A5ACD', '#DDA0DD', '#F08080', '#800080', '#4B0082', '#7B68EE', '#BA55D3', '#DDA0DD'],
     },
   ];
+  public barChartOptions = {
+    title: {
+      display: true,
+      fontSize: 20,
+      text: 'Duration of each exercise in minutes'
+    }
+  };
   private exChangedSubscription: Subscription;
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
@@ -52,6 +61,8 @@ export class ExercisesDurationComponent implements OnInit, OnChanges, OnDestroy 
             this.labelCollection.push((el.name));
           }
         });
+        this.exercise = this.trainigData.chartLabels[0];
+        this.duration =  Math.round(data[0]);
       }
     );
     this.trainingService.fetchCompletedOrCancelledExercises();
@@ -71,6 +82,8 @@ export class ExercisesDurationComponent implements OnInit, OnChanges, OnDestroy 
     this.trainigData.chartData = [
     {data: data, label: 'Duration'}
     ];
+    this.exercise = this.trainigData.chartLabels[0];
+    this.duration =  Math.round(data[0]);
   }
 
 
@@ -88,19 +101,19 @@ export class ExercisesDurationComponent implements OnInit, OnChanges, OnDestroy 
    });
    const exNames = this.labelCollection;
   _.forEach(exNames, (name) => {
-    countEx.push(this.sortEx(exNamesArray, name));
+    countEx.push(this.countSum(exNamesArray, name));
   });
    return countEx;
   }
 
-  private sortEx(array, name) {
+  private countSum(array, name) {
     let sum = 0;
     _.forEach(array, (el) => {
       if (el.name === name) {
         sum += el.duration;
       }
     });
-    return sum;
+    return Math.round(sum * 100) / 100 ;
   }
   private filterDate(dateArray, date) {
     const filteredArray = [];

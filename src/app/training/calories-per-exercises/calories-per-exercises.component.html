@@ -6,8 +6,17 @@
     [chartType]="'horizontalBar'"
     [datasets]="trainigData.chartData"
     [labels]="trainigData.chartLabels"
-    [options]="trainigData.chartOptions"
-    [colors]="pieChartColors"
-    [legend]="true">
+    [options]="barChartLabel"
+    [colors]="barChartColors"
+    [title]="barChartLabel"
+    [legend]="false">
 </canvas>
+<div
+class="center-block text-center label"
+*ngIf="trainigData.chartLabels.length < 2 && trainigData.chartLabels.length > 0 ">
+<p>
+  You burned {{trainigData.chartData[0].data}} cal by {{trainigData.chartLabels[0]}}
+</p>
 </div>
+</div>
+

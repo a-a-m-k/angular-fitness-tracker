@@ -33,6 +33,13 @@ export class ExecisesStatisticComponent implements OnInit, OnDestroy, OnChanges 
       backgroundColor: ['#FF00FF', '#FF1493', '#C71585', '#DB7093', '#F08080', '#800080', '#4B0082', '#7B68EE', '#BA55D3', '#DDA0DD'],
     },
   ];
+  public pieChartOptions = {
+      title: {
+        display: true,
+        fontSize: 20,
+        text: 'Amount of repetitions'
+      }
+    };
   private exChangedSubscription: Subscription;
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 

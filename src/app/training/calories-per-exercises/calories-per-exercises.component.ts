@@ -28,11 +28,18 @@ export class CaloriesPerExercisesComponent implements OnInit, OnChanges, OnDestr
     }],
     chartLabels: this.labelCollection
   };
-  public pieChartColors = [
+  public barChartColors = [
     {
-      backgroundColor: ['#FF00FF', '#FF1493', '#C71585', '#DB7093', '#F08080', '#800080', '#4B0082', '#7B68EE', '#BA55D3', '#DDA0DD'],
+      backgroundColor: ['#87CEFA', '#B0C4DE', '#4169E1', '#DB7093', '#87CEEB', '#800080', '#4B0082', '#7B68EE', '#BA55D3', '#DDA0DD'],
     },
   ];
+  public barChartLabel = { title: {
+    display: true,
+    fontSize: 20,
+    text: 'Calories burned per exercise'
+  }
+};
+  // 'Calories burned per exercise';
   private exChangedSubscription: Subscription;
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
@@ -89,19 +96,19 @@ export class CaloriesPerExercisesComponent implements OnInit, OnChanges, OnDestr
    });
    const exNames = this.labelCollection;
   _.forEach(exNames, (name) => {
-    countEx.push(this.sortEx(exNamesArray, name));
+    countEx.push(this.countSum(exNamesArray, name));
   });
    return countEx;
   }
 
-  private sortEx(array, name) {
+  private countSum(array, name) {
     let sum = 0;
     _.forEach(array, (el) => {
       if (el.name === name) {
         sum += el.calories;
       }
     });
-    return sum;
+    return  Math.round(sum * 100) / 100;
   }
   private filterDate(dateArray, date) {
     const filteredArray = [];
