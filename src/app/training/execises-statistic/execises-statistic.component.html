@@ -11,4 +11,12 @@
   [legend]="true">
 </canvas>
 </div>
+    <div
+    class = "overall-calories text-center col-md-12"
+    *ngIf="trainigData.chartLabels.length === 0">
+    <b>no data to analyse</b>
+    <img
+     src="../../../assets/images/workout/histeria.gif"
+    />
+ </div>
     
